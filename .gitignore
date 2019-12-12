@@ -1,0 +1,13 @@
+# Gradle
+# --------
+.gradle
+build
+local.properties
+classes
+gen
+
+# IntelliJ IDEA
+# -------------
+.shelf
+out
+.idea

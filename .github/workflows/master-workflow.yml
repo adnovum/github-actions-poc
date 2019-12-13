@@ -3,7 +3,6 @@ name: Master CI
 on:
   push:
     branches: [master]
-    paths-ignore: ['.github/workflows/*']
 
 jobs:
   build:
@@ -34,3 +33,11 @@ jobs:
         with:
           name: test-report
           path: build/reports/tests/test
+
+  test-self-hosted:
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Build
+        run: echo "hello!" > hello.txt

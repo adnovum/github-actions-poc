@@ -20,6 +20,8 @@ jobs:
         run: ./gradlew build
       - name: Integration tests
         run: ./gradlew integrationTest
+      - name: Publish packages
+        run: ./gradlew publish -Pgpr.user=${{ github.actor }} -Pgpr.token=${{ secrets.GITHUB_TOKEN }}
       - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v1

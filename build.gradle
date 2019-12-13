@@ -1,4 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group = 'ch.adnovum.githubactionspoc'
+ext.baseVersion = '0.1.0'
+version = baseVersion + '.0-' + (System.getenv('GITHUB_SHA') ?: 'dev')
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -16,5 +22,23 @@ dependencies {
 task integrationTest() {
     doLast {
         println "Dummy integration tests"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/adnovum/github-actions-poc")
+            credentials {
+                username = project.findProperty("gpr.user")
+                password = project.findProperty("gpr.token")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
     }
 }

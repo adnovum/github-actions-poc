@@ -25,6 +25,12 @@ task integrationTest() {
     }
 }
 
+task prepareReleaseArtifact(type: Zip) {
+    from jar.outputs.files
+    archiveName 'release.zip'
+}
+assemble.dependsOn prepareReleaseArtifact
+
 publishing {
     repositories {
         maven {

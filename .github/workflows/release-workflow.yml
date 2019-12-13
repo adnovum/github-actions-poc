@@ -1,10 +1,13 @@
 name: Release CI
 
 on:
-  release:
-    # there is also 'created', but not clear what the difference is.
-    # 'created' isn't triggered when creating a release draft.
-    types: [published]
+#  release:
+#    # there is also 'created', but not clear what the difference is.
+#    # 'created' isn't triggered when creating a release draft.
+#    types: [published]
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
@@ -12,7 +15,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Sha
-        run: 'echo "SHA: $GITHUB_SHA"'
-      - name: Check tag
-        run: 'echo "Tag: $GITHUB_REF"'
+      - uses: actions/checkout@v1
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build
+        run: ./gradlew build
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          # No glob support, no way to read a file or stdout for the version used
+          asset_path: ./build/distributions/release.zip
+          asset_name: release.zip
+          asset_content_type: application/zip

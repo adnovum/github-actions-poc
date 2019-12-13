@@ -1,0 +1,16 @@
+name: Release CI
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Sha
+        run: 'echo "SHA: $GITHUB_SHA"'
+      - name: Check tag
+        run: 'echo "Tag: $GITHUB_REF"'

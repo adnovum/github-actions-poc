@@ -1,0 +1,18 @@
+name: Release CI
+
+on:
+  release:
+    # there is also 'created', but not clear what the difference is.
+    # 'created' isn't triggered when creating a release draft.
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Sha
+        run: 'echo "SHA: $GITHUB_SHA"'
+      - name: Check tag
+        run: 'echo "Tag: $GITHUB_REF"'

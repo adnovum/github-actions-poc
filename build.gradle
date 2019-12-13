@@ -12,3 +12,9 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 }
+
+task integrationTest() {
+    doLast {
+        println "Dummy integration tests"
+    }
+}

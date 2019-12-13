@@ -2,7 +2,6 @@ package ch.adnovum.githubactionspoc;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MyBusinessServiceTest {
@@ -13,8 +12,8 @@ public class MyBusinessServiceTest {
 		assertEquals(13, sum);
 	}
 
-	@Test
-	public void shouldFail() {
-		Assert.fail("I'm a failure!");
-	}
+	//@Test
+	//public void shouldFail() {
+	//	Assert.fail("I'm a failure!");
+	//}
 }

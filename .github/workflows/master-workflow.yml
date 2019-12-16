@@ -34,10 +34,10 @@ jobs:
           name: test-report
           path: build/reports/tests/test
 
-  test-self-hosted:
-
-    runs-on: self-hosted
-
-    steps:
-      - name: Build
-        run: echo "hello!" > hello.txt
+#  test-self-hosted:
+#
+#    runs-on: self-hosted
+#
+#    steps:
+#      - name: Build
+#        run: echo "hello!" > hello.txt

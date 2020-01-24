@@ -13,7 +13,7 @@ jobs:
       - name: create deployment
         uses: actions/github-script@0.4.0
         with:
-          github-token: ${{secrets.DEPLOYMENT_TOKEN}}
+          github-token: ${{secrets.DEPLOYMENTS_TOKEN}}
           previews: ant-man-preview
           script: |
             github.repos.createDeployment({

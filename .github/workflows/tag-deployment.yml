@@ -14,9 +14,10 @@ jobs:
       - uses: actions/checkout@v1
       # do some deploying...
       - name: Determine version to deploy
-        run: git tag --points-at HEAD | grep ci- | cut -d'-' -f2-
+        id: determine_version
+        run: git tag --points-at HEAD | grep '^ci-' | sed 's/^ci-/::set-output name=version::/'
       - name: Deploy to TEST
-        run: echo deploying to test
+        run: echo deploying ${{steps.determine_version.outputs.version}} to test
 
       - name: Report failed deployment
         uses: actions/github-script@0.4.0

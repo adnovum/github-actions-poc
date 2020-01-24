@@ -14,7 +14,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            res = github.repos.createDeployment({
+            res = await github.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,

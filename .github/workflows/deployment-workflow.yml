@@ -1,9 +1,10 @@
 name: Deployment CI
 
-on: [deployment]
+on: 
+  deployment
   
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 

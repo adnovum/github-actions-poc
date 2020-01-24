@@ -31,3 +31,16 @@ jobs:
               ref: 'refs/tags/deployed_test-${{steps.determine_version.outputs.version}}',
               sha: context.sha,
             })
+
+      - name: Drop the command tag
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            github.git.deleteRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref,
+              sha: context.sha,
+            })

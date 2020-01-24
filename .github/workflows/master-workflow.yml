@@ -52,7 +52,7 @@ jobs:
               required_contexts: [],
               environment: 'integration',
               payload: {
-                # We can forward the app version to the deployment workflow.
+                // We can forward the app version to the deployment workflow.
                 app_version: '${{steps.print_app_version.outputs.version}}'
               }
             })

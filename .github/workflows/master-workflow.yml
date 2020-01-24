@@ -26,7 +26,7 @@ jobs:
               required_contexts: [],
               environment: 'integration4'
               payload: {
-                app_version: ${{steps.evaluate_version.outputs.version}}
+                app_version: '{{steps.evaluate_version.outputs.version}}'
               }
             })
       # - uses: actions/github-script@0.4.0

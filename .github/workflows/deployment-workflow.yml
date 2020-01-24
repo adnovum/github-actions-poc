@@ -9,11 +9,13 @@ jobs:
 
     steps:
       # do some deploying...
-      - uses: actions/github-script@0.4.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            console.log(context)
+      - name: Deploy
+        run: echo deploy
+      # - uses: actions/github-script@0.4.0
+      #   with:
+      #     github-token: ${{secrets.GITHUB_TOKEN}}
+      #     script: |
+      #       console.log(context)
       #res = await console.log(res.data.id)
       # do the deployment ... possibly in a different workflow that listens to 'deployment' event
       # - uses: actions/github-script@0.4.0

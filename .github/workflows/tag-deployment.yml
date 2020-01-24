@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v1
       # do some deploying...
       - name: Determine version to deploy
         run: git tag --points-at HEAD | grep ci- | cut -d'-' -f2-

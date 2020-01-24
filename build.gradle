@@ -48,3 +48,11 @@ publishing {
         }
     }
 }
+
+task printVersionForCI {
+    doLast {
+        // Special syntax for GH Actions so the output can be referenced by other tasks.
+        // See https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-output-parameter-set-output
+        print "::set-output name=version::${version}"
+    }
+}

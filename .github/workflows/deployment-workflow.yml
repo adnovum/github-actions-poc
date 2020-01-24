@@ -23,14 +23,9 @@ jobs:
       #         state: 'in_progress'
       #       })
       # do some deploying...
-      - uses: actions/github-script@0.4.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            console.log(context)
       - name: Deploy
-        run: echo deploy ${{ github.event }}
-      - name: Deploy
+        # we have access of the app version set by the master workflow.
+        # We could use that to fetch the built artifact from somewhere.
         run: echo deploy ${{ github.event.deployment.payload.app_version }}
       # Set deployment status to success
       - uses: actions/github-script@0.4.0

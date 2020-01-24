@@ -12,6 +12,8 @@ jobs:
 
     steps:
       # do some deploying...
+      - name: Determine version to deploy
+        run: git tag --points-at HEAD | grep ci- | cut -d'-' -f2-
       - name: Deploy to TEST
         run: echo deploying to test
 

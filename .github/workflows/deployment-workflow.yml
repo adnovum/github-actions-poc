@@ -8,6 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Set deployment status to in_progress
+      - uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment.id,
+              state: in_progress
+            })
       # do some deploying...
       - name: Deploy
         run: echo deploy
@@ -15,17 +26,15 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(context.payload.deployment.id)
-      #res = await console.log(res.data.id)
-      # do the deployment ... possibly in a different workflow that listens to 'deployment' event
-      # - uses: actions/github-script@0.4.0
-      #   with:
-      #     github-token: ${{secrets.GITHUB_TOKEN}}
-      #     script: |
-      #       github.repos.createDeploymentStatus({
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         ref: context.sha,
-      #         required_contexts: [],
-      #         environment: 'integration'
-      #       })
+            console.log()
+      # Set deployment status to success
+      - uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment.id,
+              state: success
+            })

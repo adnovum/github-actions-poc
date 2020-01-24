@@ -1,6 +1,7 @@
 name: Deployment CI
 
-on: ['deployment']
+on: 
+  push #['deployment']
   
 jobs:
   deploy:

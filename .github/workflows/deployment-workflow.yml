@@ -17,7 +17,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               deployment_id: context.payload.deployment.id,
-              state: in_progress
+              state: 'in_progress'
             })
       # do some deploying...
       - name: Deploy
@@ -36,5 +36,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               deployment_id: context.payload.deployment.id,
-              state: success
+              state: 'success'
             })

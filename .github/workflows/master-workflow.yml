@@ -38,7 +38,17 @@ jobs:
         id: print_app_version
         run: ./gradlew printVersionForCI
       - name: Tag commit
-        run: git tag ci-${{steps.print_app_version.outputs.version}} && git push origin ci-${{steps.print_app_version.outputs.version}}
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'ci-${{steps.print_app_version.outputs.version}}',
+              sha: context.sha,
+            })
 
       # # Trigger a deployment:
       # - name: Print app version

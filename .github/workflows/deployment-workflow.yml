@@ -27,10 +27,13 @@ jobs:
         # we have access of the app version set by the master workflow.
         # We could use that to fetch the built artifact from somewhere.
         run: echo deploy ${{ github.event.deployment.payload.app_version }}
-      # Set deployment status to success
-      - uses: actions/github-script@0.4.0
+      # Update deployment status
+      - name: Report successful deployment
+        if: success()
+        uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
           script: |
             github.repos.createDeploymentStatus({
               owner: context.repo.owner,
@@ -38,3 +41,16 @@ jobs:
               deployment_id: context.payload.deployment.id,
               state: 'success'
             })
+      - name: Report failed deployment
+        if: failure()
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            github.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: context.payload.deployment.id,
+              state: 'failure'
+            })            

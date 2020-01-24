@@ -14,6 +14,7 @@ jobs:
         uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          previews: ant-man-preview
           script: |
             github.repos.createDeployment({
               owner: context.repo.owner,

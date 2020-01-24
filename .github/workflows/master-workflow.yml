@@ -26,7 +26,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(context.steps.create_deployment.outputs.result)
+            console.log(context)
       #res = await console.log(res.data.id)
       # do the deployment ... possibly in a different workflow that listens to 'deployment' event
       # - uses: actions/github-script@0.4.0

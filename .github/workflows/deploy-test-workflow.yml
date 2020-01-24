@@ -3,7 +3,7 @@ name: TEST Deployment CI
 on:
   push:
     tags:
-      - 'deploy_test-*'
+      - 'deploy_test'
   
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
             github.git.deleteRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: context.ref,
+              ref: context.ref.replace('refs/', ''),
               sha: context.sha,
             })
 

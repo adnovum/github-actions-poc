@@ -23,7 +23,7 @@ jobs:
 
       - name: Determine version to deploy
         id: determine_version
-        run: git tag --points-at HEAD | grep '^deployed_test-' | sed 's/^ci-/::set-output name=version::/'
+        run: git tag --points-at HEAD | grep '^deployed_test-' | sed 's/^deployed_test-/::set-output name=version::/'
 
       # instead of rebuilding, we should fetch the artifact based on the determined version.
       - name: Build

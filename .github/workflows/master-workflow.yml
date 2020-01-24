@@ -14,12 +14,29 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.repos.createDeployment({
+            res = github.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,
-              required_contexts: []
+              required_contexts: [],
+              environment: 'integration'
             })
+            console.log(res)
+      # do the deployment ... possibly in a different workflow that listens to 'deployment' event
+      # - uses: actions/github-script@0.4.0
+      #   with:
+      #     github-token: ${{secrets.GITHUB_TOKEN}}
+      #     script: |
+      #       github.repos.createDeploymentStatus({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         ref: context.sha,
+      #         required_contexts: [],
+      #         environment: 'integration'
+      #       })
+
+
+
       # - uses: actions/checkout@v1
       # - name: Set up JDK 1.8
       #   uses: actions/setup-java@v1

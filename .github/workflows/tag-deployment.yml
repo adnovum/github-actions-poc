@@ -1,0 +1,25 @@
+name: Deployment CI
+
+on:
+  push:
+    tags:
+      - 'deploy_test-*'
+  
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # do some deploying...
+      - name: Deploy to TEST
+        run: echo deploying to test
+
+      - name: Report failed deployment
+        if: failure()
+        uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            console.log(context)

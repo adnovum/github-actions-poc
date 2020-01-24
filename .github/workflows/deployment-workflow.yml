@@ -12,6 +12,8 @@ jobs:
       - uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          # in_progress status is only available in preview api
+          previews: ant-man-preview
           script: |
             github.repos.createDeploymentStatus({
               owner: context.repo.owner,

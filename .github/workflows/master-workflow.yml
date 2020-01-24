@@ -15,9 +15,9 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.repos.createDeployment({
-              context.repo.owner,
-              context.repo.repo,
-              context.sha
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha
             })
       # - uses: actions/checkout@v1
       # - name: Set up JDK 1.8

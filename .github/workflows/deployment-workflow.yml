@@ -9,18 +9,19 @@ jobs:
 
     steps:
       # Set deployment status to in_progress
-      - uses: actions/github-script@0.4.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          # in_progress status is only available in preview api
-          previews: ant-man-preview
-          script: |
-            github.repos.createDeploymentStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              deployment_id: context.payload.deployment.id,
-              state: 'in_progress'
-            })
+      # - uses: actions/github-script@0.4.0
+      #   with:
+      #     github-token: ${{secrets.GITHUB_TOKEN}}
+      #     # in_progress status is only available in preview api, for some reason
+      #      # even setting the preview here doesn't work though
+      #     previews: ant-man-preview
+      #     script: |
+      #       github.repos.createDeploymentStatus({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         deployment_id: context.payload.deployment.id,
+      #         state: 'in_progress'
+      #       })
       # do some deploying...
       - name: Deploy
         run: echo deploy

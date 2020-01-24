@@ -1,7 +1,6 @@
 name: Deployment CI
 
-on: 
-  deployment
+on: ['deployment']
   
 jobs:
   deploy:

@@ -34,29 +34,35 @@ jobs:
           name: test-report
           path: build/reports/tests/test
 
-      # Trigger a deployment:
       - name: Print app version
         id: print_app_version
         run: ./gradlew printVersionForCI
-      - name: create deployment
-        uses: actions/github-script@0.4.0
-        with:
-          # GITHUB_TOKEN can create a deployment, but for some reason it doesn't trigger a deployment event
-          # for other workflows, so we need to use a personal access token.
-          github-token: ${{secrets.DEPLOYMENT_TOKEN}}
-          # Cf. https://octokit.github.io/rest.js/
-          script: |
-            github.repos.createDeployment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.sha,
-              required_contexts: [],
-              environment: 'integration',
-              payload: {
-                // We can forward the app version to the deployment workflow.
-                app_version: '${{steps.print_app_version.outputs.version}}'
-              }
-            })
+      - name: Tag commit
+        run: git tag ci-${{steps.print_app_version.outputs.version}} && git push origin ci-${{steps.print_app_version.outputs.version}}
+
+      # # Trigger a deployment:
+      # - name: Print app version
+      #   id: print_app_version
+      #   run: ./gradlew printVersionForCI
+      # - name: create deployment
+      #   uses: actions/github-script@0.4.0
+      #   with:
+      #     # GITHUB_TOKEN can create a deployment, but for some reason it doesn't trigger a deployment event
+      #     # for other workflows, so we need to use a personal access token.
+      #     github-token: ${{secrets.DEPLOYMENT_TOKEN}}
+      #     # Cf. https://octokit.github.io/rest.js/
+      #     script: |
+      #       github.repos.createDeployment({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         ref: context.sha,
+      #         required_contexts: [],
+      #         environment: 'integration',
+      #         payload: {
+      #           // We can forward the app version to the deployment workflow.
+      #           app_version: '${{steps.print_app_version.outputs.version}}'
+      #         }
+      #       })
 
 
 

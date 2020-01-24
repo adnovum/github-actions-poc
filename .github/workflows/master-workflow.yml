@@ -13,13 +13,14 @@ jobs:
       - name: create deployment
         uses: actions/github-script@0.4.0
         with:
-          github-token: ${{secrets.DEPLOYMENTS_TOKEN}}
-          previews: ant-man-preview
+          # GITHUB_TOKEN can create a deployment, but for some reason it doesn't trigger a deployment event
+          # for other workflows.
+          github-token: ${{secrets.DEPLOYMENT_TOKEN}}
           script: |
             github.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'master', //context.sha,
+              ref: context.sha,
               required_contexts: [],
               environment: 'integration4'
             })

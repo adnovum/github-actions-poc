@@ -3,7 +3,7 @@ name: Deployment CI
 on:
   push:
     tags:
-      - 'deploy_test-*'
+      - 'deploy_test'
   
 jobs:
   deploy:

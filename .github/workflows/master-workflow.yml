@@ -18,9 +18,9 @@ jobs:
             github.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: context.sha,
+              ref: 'master', #context.sha,
               required_contexts: [],
-              environment: 'integration2'
+              environment: 'integration4'
             })
       # - uses: actions/github-script@0.4.0
       #   with:

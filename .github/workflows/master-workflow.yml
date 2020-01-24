@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Evaluate version
         run: echo "::set-output name=version::1.2.3"
+      - name: debug
+        run: echo "${{steps.evaluate_version.outputs.version}}"
+      - name: debug2
+        run: |
+          echo "${{steps.evaluate_version.outputs.version}}"
       - name: create deployment
         uses: actions/github-script@0.4.0
         with:
@@ -24,7 +29,7 @@ jobs:
               repo: context.repo.repo,
               ref: context.sha,
               required_contexts: [],
-              environment: 'integration4'
+              environment: 'integration4',
               payload: {
                 app_version: '{{steps.evaluate_version.outputs.version}}'
               }

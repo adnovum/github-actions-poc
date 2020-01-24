@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - name: Evaluate version
+        id: evaluate_version
         run: echo "::set-output name=version::1.2.3"
       - name: debug
         run: echo "${{steps.evaluate_version.outputs.version}}"

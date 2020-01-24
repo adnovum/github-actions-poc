@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Evaluate version
+        run: echo "::set-output name=version::1.2.3"
       - name: create deployment
         uses: actions/github-script@0.4.0
         with:
@@ -23,6 +25,9 @@ jobs:
               ref: context.sha,
               required_contexts: [],
               environment: 'integration4'
+              payload: {
+                app_version: ${{steps.evaluate_version.outputs.version}}
+              }
             })
       # - uses: actions/github-script@0.4.0
       #   with:

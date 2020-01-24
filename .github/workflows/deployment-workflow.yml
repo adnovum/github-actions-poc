@@ -23,13 +23,13 @@ jobs:
       #         state: 'in_progress'
       #       })
       # do some deploying...
-      - name: Deploy
-        run: echo deploy
       - uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log()
+            console.log(context)
+      - name: Deploy
+        run: echo deploy {{ github.event.payload }}
       # Set deployment status to success
       - uses: actions/github-script@0.4.0
         with:

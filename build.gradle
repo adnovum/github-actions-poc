@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 
 group = 'ch.adnovum.githubactionspoc'
 ext.baseVersion = '0.1.0'
-version = baseVersion + '.0-' + (System.getenv('GITHUB_SHA') ?: 'dev')
+version = baseVersion + '.0-' + (System.getenv('GITHUB_SHA') ?: 'dev').take(7)
 
 
 // In this section you declare where to find the dependencies of your project

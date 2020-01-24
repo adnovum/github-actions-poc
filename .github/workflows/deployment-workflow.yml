@@ -29,7 +29,9 @@ jobs:
           script: |
             console.log(context)
       - name: Deploy
-        run: echo deploy ${{ github.event.payload }}
+        run: echo deploy ${{ github.event }}
+      - name: Deploy
+        run: echo deploy ${{ github.event.deployment.payload.app_version }}
       # Set deployment status to success
       - uses: actions/github-script@0.4.0
         with:

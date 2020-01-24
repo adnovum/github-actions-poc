@@ -10,18 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/github-script@0.4.0
+      - name: create deployment
+        uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            res = await github.repos.createDeployment({
+            github.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.sha,
               required_contexts: [],
               environment: 'integration'
             })
-            console.log(res)
+      - uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            console.log(context.steps.create_deployment.outputs.result)
+      #res = await console.log(res.data.id)
       # do the deployment ... possibly in a different workflow that listens to 'deployment' event
       # - uses: actions/github-script@0.4.0
       #   with:

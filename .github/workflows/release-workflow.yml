@@ -7,7 +7,7 @@ on:
 #    types: [published]
   push:
     tags:
-      - 'release-*'
+      - 'release'
 
 jobs:
   build:
@@ -15,6 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Drop the command tag
+        uses: actions/github-script@0.4.0        
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            github.git.deleteRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref.replace('refs/', ''),
+              sha: context.sha,
+            })
+
       - name: Determine version to deploy
         id: determine_version
         run: git tag --points-at HEAD | grep '^deployed_test-' | sed 's/^deployed_test-/::set-output name=version::/'
@@ -34,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: released-${{ steps.determine_version.outputs.version }}
+          tag_name: release-${{ steps.determine_version.outputs.version }}
           release_name: Release ${{ steps.determine_version.outputs.version }}
           draft: false
           prerelease: false

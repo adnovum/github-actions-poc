@@ -41,6 +41,6 @@ jobs:
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/deployed_test-${{steps.determine_version.outputs.version}}',
+              ref: 'refs/tags/deploy_test-${{steps.determine_version.outputs.version}}',
               sha: context.sha,
             })

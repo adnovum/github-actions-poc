@@ -7,7 +7,7 @@ on:
 #    types: [published]
   push:
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'release-*'
 
 jobs:
   build:
@@ -20,16 +20,23 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
+      - name: Determine version to deploy
+        id: determine_version
+        run: git tag --points-at HEAD | grep '^deployed_test-' | sed 's/^ci-/::set-output name=version::/'
+
+      # instead of rebuilding, we should fetch the artifact based on the determined version.
       - name: Build
         run: ./gradlew build
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: released-${{ steps.determine_version.outputs.version }}
+          release_name: Release ${{ steps.determine_version.outputs.version }}
           draft: false
           prerelease: false
       - name: Upload Release Asset

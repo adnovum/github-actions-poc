@@ -19,10 +19,15 @@ jobs:
       - name: Deploy to TEST
         run: echo deploying ${{steps.determine_version.outputs.version}} to test
 
-      - name: Report failed deployment
+      - name: Tag commit as deployed to TEST
         uses: actions/github-script@0.4.0
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           # Cf. https://octokit.github.io/rest.js/
           script: |
-            console.log(context)
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/deployed_test-${{steps.determine_version.outputs.version}}',
+              sha: context.sha,
+            })

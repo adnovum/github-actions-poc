@@ -16,4 +16,4 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           # Cf. https://octokit.github.io/rest.js/
           script: |
-            console.log('', github)
+            console.log('', github.graphql)

@@ -35,4 +35,6 @@ jobs:
               }
             }
             `)
-            console.log('', bla)
+            for (let edge of bla.repository.registryPackagesForQuery.edges) { 
+              console.log('', edge)
+            }

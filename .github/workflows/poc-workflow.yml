@@ -17,6 +17,22 @@ jobs:
           # Cf. https://octokit.github.io/rest.js/
           script: |
             bla = await github.graphql(`
-            { viewer { login }}
+            {
+              repository(name: "github-actions-poc", owner: "adnovum") {
+                registryPackagesForQuery(first: 20) {
+                  edges {
+                    node {
+                      id,name, versions(first:20){
+                        edges {
+                          node {
+                            id,version,updatedAt
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
             `)
             console.log('', bla)

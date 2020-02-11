@@ -47,3 +47,14 @@ jobs:
               }
             }
             console.log(pkgVersionsToDelete)
+            deleteSuccess = await github.graphql(`
+            {
+              mutation {
+                deletePackageVersion(input:{packageVersionId:"MDE0OlBhY2thZ2VWZXJzaW9uNDU5OTY3"}) {
+                  success
+                }
+              }
+            }
+            console.log(success)
+            `)
+            

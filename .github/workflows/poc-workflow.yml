@@ -40,3 +40,5 @@ jobs:
                 console.log('', ver.node)
               }
             }
+            vers = bla.repository.registryPackagesForQuery.edge.map(pkg => pkg.node.versions.edges)
+            console.log('', vers)

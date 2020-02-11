@@ -35,6 +35,8 @@ jobs:
               }
             }
             `)
+            let cutoff = new Date(new Date().getTime() - 30 * 86400000)
+            console.log(cutoff)
             for (let pkg of bla.repository.registryPackagesForQuery.edges) { 
               for (let ver of pkg.node.versions.edges) { 
                 console.log('', ver.node)

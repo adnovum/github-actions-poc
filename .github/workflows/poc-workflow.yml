@@ -55,6 +55,5 @@ jobs:
                 }
               }
             }
-            console.log(success)
             `)
-            
+            console.log(deleteSuccess)

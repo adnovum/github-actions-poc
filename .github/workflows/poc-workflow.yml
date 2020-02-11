@@ -38,7 +38,7 @@ jobs:
             for (let pkg of bla.repository.registryPackagesForQuery.edges) { 
               for (let ver of pkg.node.versions.edges) { 
                 console.log('', ver.node)
+                let dt = new Date(ver.node.updatedAt))
+                console.log(dt)
               }
             }
-            vers = bla.repository.registryPackagesForQuery.edge.map(pkg => pkg.node.versions.edges)
-            console.log('', vers)

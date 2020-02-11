@@ -19,10 +19,10 @@ jobs:
             bla = await github.graphql(`
             {
               repository(name: "github-actions-poc", owner: "adnovum") {
-                registryPackagesForQuery(first: 20) {
+                registryPackagesForQuery(first: 100) {
                   edges {
                     node {
-                      id,name, versions(first:20){
+                      id,name, versions(first:100){
                         edges {
                           node {
                             id,version,updatedAt
@@ -39,8 +39,9 @@ jobs:
             console.log(cutoff)
             for (let pkg of bla.repository.registryPackagesForQuery.edges) { 
               for (let ver of pkg.node.versions.edges) { 
-                console.log('', ver.node)
                 let dt = new Date(ver.node.updatedAt)
-                console.log(dt)
+                if (dt <= cutoff) {
+                  console.log('', ver.node)
+                }
               }
             }

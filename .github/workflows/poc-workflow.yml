@@ -16,7 +16,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           # Cf. https://octokit.github.io/rest.js/
           script: |
-            bla = await github.graphql(`
+            packages = await github.graphql(`
             {
               repository(name: "github-actions-poc", owner: "adnovum") {
                 registryPackagesForQuery(first: 100) {
@@ -37,11 +37,13 @@ jobs:
             `)
             let cutoff = new Date(new Date().getTime() - 30 * 86400000)
             console.log(cutoff)
-            for (let pkg of bla.repository.registryPackagesForQuery.edges) { 
+            pkgVersionsToDelete = []
+            for (let pkg of packages.repository.registryPackagesForQuery.edges) { 
               for (let ver of pkg.node.versions.edges) { 
                 let dt = new Date(ver.node.updatedAt)
                 if (dt <= cutoff) {
-                  console.log('', ver.node)
+                  pkgVersionsToDelete.push(ver.node.id)
                 }
               }
             }
+            console.log(pkgVersionsToDelete)

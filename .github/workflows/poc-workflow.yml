@@ -53,5 +53,10 @@ jobs:
                 success
               }
             }
-            `)
+            `,
+            {
+              headers: {
+                accept: "application/vnd.github.package-deletes-preview+json"
+              }
+            })
             console.log(deleteSuccess)

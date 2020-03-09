@@ -14,12 +14,7 @@ jobs:
         with:
           java-version: 1.8
       - name: dbg
-        uses: actions/github-script@0.4.0        
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          # Cf. https://octokit.github.io/rest.js/
-          script: |
-            console.log(context)
+        run: echo ${{ github.event.number }}
       - name: Build
         run: ./gradlew build
       - name: Upload test reports

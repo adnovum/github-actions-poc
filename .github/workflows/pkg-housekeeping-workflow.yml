@@ -1,0 +1,96 @@
+name: GH Packages Housekeeping
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  # Optionally triggered manually via git tag.
+  push:
+    tags:
+      - 'housekeeping'
+
+jobs:
+  housekeep:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Drop the housekeeping tag if it was used
+        continue-on-error: true
+        uses: actions/github-script@0.4.0        
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://octokit.github.io/rest.js/
+          script: |
+            github.git.deleteRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'tags/housekeeping',
+              sha: context.sha,
+            })
+
+      - name: Perform GH Packages housekeeping
+        uses: actions/github-script@0.4.0        
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          # Cf. https://help.github.com/en/packages/publishing-and-managing-packages/deleting-a-package#deleting-a-version-of-a-private-package-with-graphql
+          script: |
+            // List packages and their versions via GraphQL
+            packages = await github.graphql(`
+            {
+              repository(name: "${context.repo.repo}", owner: "${context.repo.owner}") {
+                registryPackagesForQuery(first: 100) {
+                  edges {
+                    node {
+                      id,name, versions(first:100){
+                        edges {
+                          node {
+                            id,version,updatedAt
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            `)
+
+            // Filter package versions by pkg of interest and age.
+            let cutoffDays = 30
+            let pkgsOfInterest = ['ch.adnovum.githubactionspoc.github-actions-poc']
+            let cutoff = new Date(new Date().getTime() - cutoffDays * 86400000)                        
+            console.log(`Deleting all packages in ${pkgsOfInterest} before ${cutoff}`)
+            pkgVersionsToDelete = []
+            for (let pkg of packages.repository.registryPackagesForQuery.edges) {
+              if (!pkgsOfInterest.includes(pkg.node.name)) {
+                continue
+              }
+              for (let ver of pkg.node.versions.edges) { 
+                let dt = new Date(ver.node.updatedAt)
+                if (dt <= cutoff) {
+                  console.log(`Going to delete ${pkg.node.name} ${ver.node.version} from ${ver.node.updatedAt}`)
+                  pkgVersionsToDelete.push(ver.node.id)
+                }
+              }
+            }
+
+            // Actually delete the package versions via GraphQL.
+            for (let id of pkgVersionsToDelete) {
+              deleteSuccess = await github.graphql(`
+                mutation {
+                  deletePackageVersion(input:{packageVersionId:"${id}"}) {
+                    success
+                  }
+                }
+                `,
+                {
+                  headers: {
+                    accept: "application/vnd.github.package-deletes-preview+json"
+                  }
+                }
+              )
+              console.log(deleteSuccess)
+            }
+            
+            

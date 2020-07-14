@@ -31,3 +31,6 @@ jobs:
       #       })
 
       - uses: actions/checkout@v1
+
+      - name: print sha
+        run: "echo sha: ${{ github.sha }}, ref: ${{ github.ref }}"

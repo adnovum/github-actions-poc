@@ -34,3 +34,6 @@ jobs:
 
       - name: print sha
         run: "echo sha: ${{ github.sha }}, ref: ${{ github.ref }}"
+
+      - name: print readme
+        run: "cat README.md"

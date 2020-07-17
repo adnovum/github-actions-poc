@@ -12,6 +12,12 @@ public class MyBusinessServiceTest {
 		assertEquals(13, sum);
 	}
 
+	@Test
+	public void shouldSubtract() {
+		int diff = new MyBusinessService().subtract(10, 3);
+		assertEquals(7, diff);
+	}
+
 	//@Test
 	//public void shouldFail() {
 	//	Assert.fail("I'm a failure!");

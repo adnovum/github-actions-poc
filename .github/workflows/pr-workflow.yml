@@ -1,5 +1,6 @@
 name: Pull-Request CI
-
+# something
+# sneaky additional change
 on: [pull_request]
 
 jobs:
@@ -13,6 +14,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: dbg
+        run: echo ${{ github.event.number }} ${{ github.head_ref }} ${{ github.base_ref }}
       - name: Build
         run: ./gradlew build
       - name: Upload test reports

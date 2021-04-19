@@ -1,0 +1,36 @@
+name: Example - Share output between jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  produce:
+
+    runs-on: ubuntu-latest
+    
+    outputs:
+      myValue: ${{ steps.exposeValue.outputs.myvalue }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create value as an environment variable
+        run: |
+          echo "MY_VALUE='MYVALUE'" >> $GITHUB_ENV
+      - name: Expose value 
+        id: exposeValue
+        run: |
+          echo "::set-output name=myvalue::${{ env.MY_VALUE }}"
+            
+  consume:
+
+    runs-on: ubuntu-latest
+
+    needs: produce
+    
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use value
+        run: |
+          echo ${{ needs.produce.outputs.myvalue }}"
+ 
+  

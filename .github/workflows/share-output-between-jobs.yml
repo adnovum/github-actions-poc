@@ -31,6 +31,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use value
         run: |
-          echo ${{ needs.produce.outputs.myvalue }}"
+          echo "${{ needs.produce.outputs.myvalue }}"
  
   
